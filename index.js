@@ -41,7 +41,7 @@ app.use(express.json());
 
 // app.use(requestLogger);
 
-morgan.token('body', (req, res) => JSON.stringify(req.body));
+morgan.token('body', (req, res) => `body: ${JSON.stringify(req.body)}`);
 
 app.use(morgan((tokens, req, res) => {
   return [
@@ -49,7 +49,7 @@ app.use(morgan((tokens, req, res) => {
     tokens.url(req, res),
     tokens.status(req, res),
     tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms',
+    // tokens['response-time'](req, res), 'ms',
     tokens.body(req, res),
   ].join(' ')
 }));
