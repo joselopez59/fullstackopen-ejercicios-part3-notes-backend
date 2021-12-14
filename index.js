@@ -1,5 +1,5 @@
-const { request, response } = require('express');
 const express = require('express');
+var morgan = require('morgan');
 // const cors = require('cors');
 const app = express();
 
@@ -30,17 +30,29 @@ app.use(express.static('build'));
 // app.use(cors());
 app.use(express.json());
 
-const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method);
-  console.log('Path:  ', request.path);
-  console.log('Body:  ', request.body);
-  console.log('---')
+// const requestLogger = (request, response, next) => {
+//   console.log('Method:', request.method);
+//   console.log('Path:  ', request.path);
+//   console.log('Body:  ', request.body);
+//   console.log('---')
 
-  next();
-}
+//   next();
+// }
 
-app.use(requestLogger);
+// app.use(requestLogger);
 
+morgan.token('body', (req, res) => JSON.stringify(req.body));
+
+app.use(morgan((tokens, req, res) => {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms',
+    tokens.body(req, res),
+  ].join(' ')
+}));
 
 /* Routes */
 app.get('/', (request, response) => {
