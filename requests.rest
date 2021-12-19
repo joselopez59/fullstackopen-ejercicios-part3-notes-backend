@@ -7,10 +7,18 @@ GET http://localhost:3001/api/notes/1
 
 ###
 
-POST http://localhost:3001/api/notes/
+POST http://localhost:3001/api/notes/ 
 Content-Type: application/json
 
 {
   "content": "Postman is a good tool for testing REST apis",
   "important": true
+}
+
+###
+POST http://localhost:3001/api/notes/ 
+Content-Type: application/json
+
+{
+"content": "From vs code rest client", "important": true
 }
